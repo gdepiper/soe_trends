@@ -24,11 +24,21 @@ set.seed(436)
 n <- 100 #number of simulations
 x <- 30 #number of periods
 
-LTRENDweak <- 0.42 + (0.00106 * c(1:x))
-LTRENDmedium <- 0.42 + (0.00494 * c(1:x)) #Linear trend
-LTRENDstrong <- 0.42 + (0.00882 * c(1:x))
-ARmedium <- list(ar = 0.435)
+# Trend parameters are from fitting a linear model to the
+# z-scored real data: 5th percentile (weak), mean (medium), 
+# 95th (strong). The mean intercept of the z-score real
+# data was -0.262.
+LTRENDweak   <- -0.262 + (0.004 * c(1:x)) #Linear trend
+LTRENDmedium <- -0.262 + (0.051 * c(1:x)) 
+LTRENDstrong <- -0.262 + (0.147 * c(1:x))
+# AR values are from the real data by fitting an ar1
+# model to the resids of the linear fit. The mean of
+# those values was 0.433. We also include 0.8 to 
+# investigate the effect of strong autocorrelation.
+ARmedium <- list(ar = 0.433)
 ARstrong <- list(ar = 0.8)
+# Mean AR sd from the resids of the real data
+ARsd <- 0.54^0.5
 NOAR <- list()
 
 #Adding placeholders for simulated data
@@ -64,7 +74,9 @@ LINEARstrong_NOAR_RESULTS <- NULL
 for (i in 1:n) {
 #Generating ar(1) simulations
   for (k in c('ARmedium','ARstrong','NOAR')){
-TEMP1 <- arima.sim(get(k),n=x,rand.gen=rnorm)
+# Simulate arima process with sd set to the mean sd
+# of the residuals
+TEMP1 <- arima.sim(get(k), n=x, rand.gen=rnorm, sd = ARsd)
 LTEMP1 <- TEMP1 + LTRENDweak
 LTEMP2 <- TEMP1 + LTRENDmedium
 LTEMP3 <- TEMP1 + LTRENDstrong
