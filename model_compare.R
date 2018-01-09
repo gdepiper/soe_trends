@@ -83,8 +83,9 @@ fit_gam <- function(dat) {
   # use the same number of observations (important for AIC)
   dat <- dat %>% dplyr::filter(complete.cases(.))
   
-  # Break out if less than 15 data points (GAMM runs into numerical problems)
-  if (nrow(dat) < 15) {
+  # Break out if less than 30 data points (GAMM runs into 
+  # numerical problems)
+  if (nrow(dat) < 30) {
     best_gam <- 
       data.frame(model = NA,
                  aicc  = NA,
