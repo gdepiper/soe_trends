@@ -21,12 +21,12 @@ for (p in PKG) {
 
 set.seed(436)
 
-n <- 100 #number of simulations
+n <- 100#0 #number of simulations
 x <- 30 #number of periods
 
 # Trend parameters are from fitting a linear model to the
 # z-scored real data: 5th percentile (weak), mean (medium), 
-# 95th (strong). The mean intercept of the z-score real
+# 95th (strong). The mean intercept of the z-scored real
 # data was -0.262.
 LTRENDweak   <- -0.262 + (0.004 * c(1:x)) #Linear trend
 LTRENDmedium <- -0.262 + (0.051 * c(1:x)) 
