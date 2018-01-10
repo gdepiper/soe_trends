@@ -4,20 +4,17 @@
 #10, 20, 30 years
 #AR(1) ARIMA(1,0,1), linear trend, quadratic trend, no trend
 
-# Load required libraries
-library(tidyr)
-library(ggplot2)
-
-# Load functions to do model selection of GLS and GAM
-source("model_compare.R")
-
-PKG <-c("Kendall",'zyp')
+# Load required libraries - Code below will install package and load if not already installed on computer.
+PKG <-c("Kendall",'zyp','tidyr','ggplot2')
 
 for (p in PKG) {
   if(!require(p,character.only = TRUE)) {
     install.packages(p)
     require(p,charcter.only=TRUE)  }
 }
+
+# Load functions to do model selection of GLS and GAM
+source("model_compare.R")
 
 set.seed(436)
 
